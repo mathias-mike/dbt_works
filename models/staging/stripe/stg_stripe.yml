@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: stg_payments
+    description: Staging table for payments 
+    columns:
+      - name: payment_id
+        description: Primary key for the payment staging table
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: Foreign key referencing order_id in the orders stagin table
+        tests:
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+      - name: status
+        description: '{{ doc("payment_status") }}'
+        tests:
+          - accepted_values:
+              values:
+                - success
+                - fail  
+      - name: payment_method
+        description: "{{ doc('payment_method') }}"
+      - name: amount
+        description: Amount of money, in US Dollars, paid
+      - name: created_at
+        description: Date when payment was made
+     
+
